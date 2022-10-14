@@ -217,6 +217,11 @@ function count() {
 
         let d2 = d1.getHours()+":"+d1.getMinutes();
 
+        if (!form.num.value) {
+            alert('Введите количество билетов');
+            return
+        }
+
         if (form.route.value === 'из A в B и обратно в A') {
             if (d2.length === 4) {
                 d2 = `0`+ `${d2}`;
@@ -231,12 +236,19 @@ function count() {
             }
         }
 
-        if (!form.num.value) {
-            alert('Введите количество билетов');
-            return
+        let wordTicket = '';
+
+        console.log(amountTickets)
+
+        if (+amountTickets === 1) {
+            wordTicket = 'билет';
+        } else if (+amountTickets === 2 || +amountTickets === 3 || +amountTickets === 4) {
+            wordTicket = 'билета';
+        } else {
+            wordTicket = 'билетов';
         }
 
-        spanAmountTickets.textContent = `Вы выбрали ${amountTickets} билета по маршруту ${route} стоимостью ${price * amountTickets} рублей`;
+        spanAmountTickets.textContent = `Вы выбрали ${amountTickets} ${wordTicket} по маршруту ${route} стоимостью ${price * amountTickets} рублей`;
         spanTiming.textContent = `Это путешествие займет у Вас ${routeTime} минут`;
         departureAndComing.textContent = `Теплоход отправляется в ${time}, а прибудет в ${d2}`;
 
