@@ -204,6 +204,8 @@ function count() {
         time = timing.selectedOptions[0].innerText.substring(0, 5);
 
         let d1 = new Date(`2021-08-21T${time}`);
+        let d3 = new Date(`2021-08-21T${time}`)
+        let test = d3.setMinutes(d3.getMinutes() + 50);
 
         if (form.route.value === 'из A в B' || form.route.value === 'из B в A') {
             price = 700;
@@ -227,18 +229,17 @@ function count() {
                 d2 = `0`+ `${d2}`;
             }
             let time2 = form.backTiming.selectedOptions[0].innerText.substring(0, 5);
-            let test = new Date(`2021-08-21T${d2}`);
             let test2 = new Date(`2021-08-21T${time2}`)
-            console.log(test, test2)
-            if (test2.getTime() < test.getTime()) {
+            let test3 = new Date(test)
+            console.log(test2, test, test3)
+            console.log(test3.getTime(), test2.getTime())
+            if (test2.getTime() < test3.getTime()) {
                 alert('Вы должны выбрать время обратного билета позже, чем доберётесь до точки B')
                 return
             }
         }
 
         let wordTicket = '';
-
-        console.log(amountTickets)
 
         if (+amountTickets === 1) {
             wordTicket = 'билет';
