@@ -259,6 +259,18 @@ function count() {
             wordTicket = 'билетов';
         }
 
+        let character = '0';
+
+        if (d3.length < 5) {
+            if (d3[2] === ':') {
+                let test = d3.split('');
+                test.splice(3, 0, character);
+                d3 = test.join('');
+            } else if (d3[2] != ':') {
+                d3 = character + d3;
+            }
+        }
+
         spanAmountTickets.textContent = `Вы выбрали ${amountTickets} ${wordTicket} по маршруту ${route} стоимостью ${price * amountTickets} рублей`;
         spanTiming.textContent = `Это путешествие займет у Вас ${routeTime} минут`;
         departureAndComing.textContent = `Теплоход отправляется в ${time}, а прибудет в ${d3}`;
