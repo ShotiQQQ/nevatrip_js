@@ -229,18 +229,32 @@ function count() {
         d3 = new Date(d3);
         d3 = d3.getHours()+":"+d3.getMinutes();
 
-        
-
         if (form.route.value === 'из A в B и обратно в A') {
             let d4 = form.backTime[form.backTiming.selectedIndex].getTime();
             let d2 = new Date(form.backTime[form.backTiming.selectedIndex].getTime());
+            let d5 = new Date(form.backTime[form.backTiming.selectedIndex].getTime());
+            let d6 = d1 = new Date(form.time[form.timing.selectedIndex].getTime());
+            routeTime = d5 - d6;
+            routeTime = Math.floor(routeTime / 60000) + 50;
             price = 1200;
-            d3 = d2.setMinutes(d2.getMinutes() + 50)
+            d3 = d2.setMinutes(d2.getMinutes() + 50);
             d3 = new Date(d3);
-            d3 = d3.getHours()+":"+d3.getMinutes()
+            d3 = d3.getHours()+":"+d3.getMinutes();
+            console.log(d3)
             if (d4 < d1.setMinutes(d1.getMinutes() + 50)) {
                 alert('Вы должны выбрать время обратного билета позже, чем доберётесь до точки B')
                 return
+            }
+        }
+
+        if (d3.length < 5) {
+            let character = '0';
+            if (d3[2] === ':') {
+                let timeArray = d3.split('');
+                timeArray.splice(3, 0, character);
+                d3 = timeArray.join('');
+            } else if (d3[2] != ':') {
+                d3 = character + d3;
             }
         }
 
@@ -257,18 +271,6 @@ function count() {
             wordTicket = 'билета';
         } else {
             wordTicket = 'билетов';
-        }
-
-        let character = '0';
-
-        if (d3.length < 5) {
-            if (d3[2] === ':') {
-                let test = d3.split('');
-                test.splice(3, 0, character);
-                d3 = test.join('');
-            } else if (d3[2] != ':') {
-                d3 = character + d3;
-            }
         }
 
         spanAmountTickets.textContent = `Вы выбрали ${amountTickets} ${wordTicket} по маршруту ${route} стоимостью ${price * amountTickets} рублей`;
