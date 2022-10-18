@@ -213,21 +213,32 @@ function count() {
         amountTickets = form.num.value;
         route = form.route.value;
 
-        time = timing.selectedOptions[0].innerText.substring(0, 5);
-
-        let d1 = new Date(form.time[form.timing.selectedIndex].getTime());
-
-        let d2 = form.time[form.timing.selectedIndex].getHours()+":"+form.time[form.timing.selectedIndex].getMinutes();
-
         if (!form.num.value) {
             alert('Введите количество билетов');
             return
         }
 
+        time = timing.selectedOptions[0].innerText.substring(0, 5);
+
+        let d1 = new Date(form.time[form.timing.selectedIndex].getTime());
+        if (form.route.value === 'из B в A') {
+            d1 = new Date(form.backTime[form.timing.selectedIndex].getTime());
+        }
+        let d3 = new Date(d1);
+        d3 = d3.setMinutes(d3.getMinutes() + 50);
+        d3 = new Date(d3);
+        d3 = d3.getHours()+":"+d3.getMinutes();
+
+        
+
         if (form.route.value === 'из A в B и обратно в A') {
-            let test2 = form.backTime[form.backTiming.selectedIndex].getTime();
+            let d4 = form.backTime[form.backTiming.selectedIndex].getTime();
+            let d2 = new Date(form.backTime[form.backTiming.selectedIndex].getTime());
             price = 1200;
-            if (test2 < d1.setMinutes(d1.getMinutes() + 50)) {
+            d3 = d2.setMinutes(d2.getMinutes() + 50)
+            d3 = new Date(d3);
+            d3 = d3.getHours()+":"+d3.getMinutes()
+            if (d4 < d1.setMinutes(d1.getMinutes() + 50)) {
                 alert('Вы должны выбрать время обратного билета позже, чем доберётесь до точки B')
                 return
             }
@@ -250,7 +261,7 @@ function count() {
 
         spanAmountTickets.textContent = `Вы выбрали ${amountTickets} ${wordTicket} по маршруту ${route} стоимостью ${price * amountTickets} рублей`;
         spanTiming.textContent = `Это путешествие займет у Вас ${routeTime} минут`;
-        departureAndComing.textContent = `Теплоход отправляется в ${time}, а прибудет в ${d2}`;
+        departureAndComing.textContent = `Теплоход отправляется в ${time}, а прибудет в ${d3}`;
 
         form.calcBlock.append(spanAmountTickets, spanTiming, departureAndComing);
         form.form.append(form.calcBlock);
