@@ -83,7 +83,17 @@ function createForm() {
         new Date('2021-08-21T21:50+03:00'),
         new Date('2021-08-21T21:55+03:00'),
     ]
-    
+
+    let backTime = [
+        new Date('2021-08-21T18:30+03:00'),
+        new Date('2021-08-21T18:45+03:00'),
+        new Date('2021-08-21T19:00+03:00'),
+        new Date('2021-08-21T19:15+03:00'),
+        new Date('2021-08-21T19:35+03:00'),
+        new Date('2021-08-21T21:50+03:00'),
+        new Date('2021-08-21T21:55+03:00'),
+    ]
+
     timeOptions[0].value = '18:00(из A в B)';
     timeOptions[1].value = '18:30(из A в B)';
     timeOptions[2].value = '18:45(из A в B)';
@@ -126,13 +136,13 @@ function createForm() {
             optionsBack[5].value = '21:50(из B в A)';
             optionsBack[6].value = '21:55(из B в A)';
 
-            optionsBack[0].textContent = `${time[6].toLocaleTimeString().slice(0, -3) + optionsBack[0].value.substring(5)}`;
-            optionsBack[1].textContent = `${time[7].toLocaleTimeString().slice(0, -3) + optionsBack[1].value.substring(5)}`;
-            optionsBack[2].textContent = `${time[8].toLocaleTimeString().slice(0, -3) + optionsBack[2].value.substring(5)}`;
-            optionsBack[3].textContent = `${time[9].toLocaleTimeString().slice(0, -3) + optionsBack[3].value.substring(5)}`;
-            optionsBack[4].textContent = `${time[10].toLocaleTimeString().slice(0, -3) + optionsBack[4].value.substring(5)}`;
-            optionsBack[5].textContent = `${time[11].toLocaleTimeString().slice(0, -3) + optionsBack[5].value.substring(5)}`;
-            optionsBack[6].textContent = `${time[12].toLocaleTimeString().slice(0, -3) + optionsBack[6].value.substring(5)}`;
+            optionsBack[0].textContent = `${backTime[0].toLocaleTimeString().slice(0, -3) + optionsBack[0].value.substring(5)}`;
+            optionsBack[1].textContent = `${backTime[1].toLocaleTimeString().slice(0, -3) + optionsBack[1].value.substring(5)}`;
+            optionsBack[2].textContent = `${backTime[2].toLocaleTimeString().slice(0, -3) + optionsBack[2].value.substring(5)}`;
+            optionsBack[3].textContent = `${backTime[3].toLocaleTimeString().slice(0, -3) + optionsBack[3].value.substring(5)}`;
+            optionsBack[4].textContent = `${backTime[4].toLocaleTimeString().slice(0, -3) + optionsBack[4].value.substring(5)}`;
+            optionsBack[5].textContent = `${backTime[5].toLocaleTimeString().slice(0, -3) + optionsBack[5].value.substring(5)}`;
+            optionsBack[6].textContent = `${backTime[6].toLocaleTimeString().slice(0, -3) + optionsBack[6].value.substring(5)}`;
 
             timing.innerHTML = '';
 
@@ -167,6 +177,7 @@ function createForm() {
     for (let i = 0; i < 6; i++) {
         timing.append(timeOptions[i]);
     }
+
     form.append(labelForRoute, route, labelForTime, timing, labelForNum, num, buttonCount, calcBlock);
     app.append(form);
     
@@ -180,7 +191,8 @@ function createForm() {
         num,
         calcBlock,
         time,
-        backTiming
+        backTiming,
+        backTime
     }
 }
 
@@ -204,7 +216,8 @@ function count() {
         time = timing.selectedOptions[0].innerText.substring(0, 5);
 
         let d1 = new Date(`2021-08-21T${time}`);
-        let d3 = new Date(`2021-08-21T${time}`)
+        let d3 = new Date(`2021-08-21T${time}`);
+        
         let test = d3.setMinutes(d3.getMinutes() + 50);
 
         if (form.route.value === 'из A в B' || form.route.value === 'из B в A') {
@@ -228,11 +241,9 @@ function count() {
             if (d2.length === 4) {
                 d2 = `0`+ `${d2}`;
             }
-            let time2 = form.backTiming.selectedOptions[0].innerText.substring(0, 5);
-            let test2 = new Date(`2021-08-21T${time2}`)
+            let test2 = form.backTime[form.backTiming.selectedIndex];
+            console.log(test2)
             let test3 = new Date(test)
-            console.log(test2, test, test3)
-            console.log(test3.getTime(), test2.getTime())
             if (test2.getTime() < test3.getTime()) {
                 alert('Вы должны выбрать время обратного билета позже, чем доберётесь до точки B')
                 return
