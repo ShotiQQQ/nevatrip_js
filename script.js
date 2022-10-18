@@ -200,7 +200,7 @@ function count() {
     form.buttonCount.addEventListener('click', (e) => {
         e.preventDefault();
         let amountTickets = null;
-        let time = null;
+        let time = null
         let price = null;
         let route = null;
         let routeTime = null;
@@ -215,22 +215,9 @@ function count() {
 
         time = timing.selectedOptions[0].innerText.substring(0, 5);
 
-        let d1 = new Date(`2021-08-21T${time}`);
-        let d3 = new Date(`2021-08-21T${time}`);
-        
-        let test = d3.setMinutes(d3.getMinutes() + 50);
+        let d1 = new Date(form.time[form.timing.selectedIndex].getTime());
 
-        if (form.route.value === 'из A в B' || form.route.value === 'из B в A') {
-            price = 700;
-            routeTime = 50;
-            d1.setMinutes(d1.getMinutes() + 50);
-        } else if (form.route.value === 'из A в B и обратно в A') {
-            price = 1200;
-            routeTime = 100;
-            d1.setMinutes(d1.getMinutes() + 100);
-        }
-
-        let d2 = d1.getHours()+":"+d1.getMinutes();
+        let d2 = form.time[form.timing.selectedIndex].getHours()+":"+form.time[form.timing.selectedIndex].getMinutes();
 
         if (!form.num.value) {
             alert('Введите количество билетов');
@@ -238,16 +225,17 @@ function count() {
         }
 
         if (form.route.value === 'из A в B и обратно в A') {
-            if (d2.length === 4) {
-                d2 = `0`+ `${d2}`;
-            }
-            let test2 = form.backTime[form.backTiming.selectedIndex];
-            console.log(test2)
-            let test3 = new Date(test)
-            if (test2.getTime() < test3.getTime()) {
+            let test2 = form.backTime[form.backTiming.selectedIndex].getTime();
+            price = 1200;
+            if (test2 < d1.setMinutes(d1.getMinutes() + 50)) {
                 alert('Вы должны выбрать время обратного билета позже, чем доберётесь до точки B')
                 return
             }
+        }
+
+        if (form.route.value === 'из A в B' || form.route.value === 'из B в A') {
+            price = 700;
+            routeTime = 50;
         }
 
         let wordTicket = '';
